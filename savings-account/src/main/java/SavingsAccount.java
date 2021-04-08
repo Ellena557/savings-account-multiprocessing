@@ -3,15 +3,15 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class SavingsAccount {
-    private int balance;
-    Lock lock = new ReentrantLock();
-    Condition condition = lock.newCondition();
-    Lock preferredLock = new ReentrantLock();
+    private long balance;
+    private Lock lock = new ReentrantLock();
+    private Condition condition = lock.newCondition();
+    private Lock preferredLock = new ReentrantLock();
     private int numPreferred;
-    Condition conditionPreferred = lock.newCondition();
+    private Condition conditionPreferred = lock.newCondition();
+    private String name;
 
-
-    public SavingsAccount(int balance) {
+    public SavingsAccount(long balance) {
         this.balance = balance;
         this.numPreferred = 0;
     }
@@ -20,7 +20,7 @@ public class SavingsAccount {
         lock.lock();
         try {
             balance += k;
-            System.out.println("ADD:   balance=" + balance + " :: added=" + k);
+            System.out.println(getName() + " add " + k + ". Balance is " + balance);
             condition.signalAll();
         } finally {
             lock.unlock();
@@ -30,16 +30,12 @@ public class SavingsAccount {
     public void ordinaryWithdraw(int k) throws InterruptedException {
         lock.lock();
         try {
-            while (true) {
-                if (balance < k || numPreferred > 0) {
-                    condition.await();
-                }
-                if (balance > k) {
-                    break;
-                }
+            while (balance < k || numPreferred > 0) {
+                condition.await();
             }
             balance -= k;
-            System.out.println("SUB:   balance=" + balance + " :: subbed=" + k);
+            System.out.println(getName() + " withdraw " + k + ". Balance is " + balance);
+            condition.signalAll();
         } finally {
             lock.unlock();
         }
@@ -50,8 +46,7 @@ public class SavingsAccount {
         preferredLock.lock();
         try {
             numPreferred += 1;
-        }
-        finally {
+        } finally {
             preferredLock.unlock();
         }
 
@@ -62,26 +57,41 @@ public class SavingsAccount {
                 conditionPreferred.await();
             }
             balance -= k;
-            System.out.println("PREFERRED SUB:   balance=" + balance + " :: subbed=" + k);
-
+            System.out.println(getName() + " withdraw preferably " + k + ". Balance is " + balance);
             // notify others
             preferredLock.lock();
             numPreferred -= 1;
             if (numPreferred == 0) {
                 condition.signalAll();
-            }
-            else {
+            } else {
                 conditionPreferred.signalAll();
             }
             preferredLock.unlock();
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
     }
 
+    public void transfer(int k, SavingsAccount reserve) throws InterruptedException {
+        lock.lock();
+        try {
+            System.out.println("Transfer " + k + " from " + reserve.getName() + " to " + getName());
+            reserve.ordinaryWithdraw(k);
+            deposit(k);
+        } finally {
+            lock.unlock();
+        }
+    }
 
-    public int getBalance() {
+    public long getBalance() {
         return balance;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
