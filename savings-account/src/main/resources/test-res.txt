@@ -1,0 +1,62 @@
+Account 0 has balance = 100
+Account 1 has balance = 158
+Account 2 has balance = 38
+Account 3 has balance = 24
+Account 4 has balance = 169
+Account 5 has balance = 131
+Account 6 has balance = 160
+Account 7 has balance = 5
+Account 8 has balance = 167
+Account 9 has balance = 68
+Transfer 100 from Account 9 to Account 0
+Transfer 100 from Account 6 to Account 1
+Transfer 100 from Account 5 to Account 2
+Account 6 withdraw 100. Balance is 60
+Account 5 withdraw 100. Balance is 31
+Account 1 add 100. Balance is 258
+Transfer 100 from Account 0 to Account 3
+Account 2 add 100. Balance is 138
+Account 0 withdraw 100. Balance is 0
+Account 3 add 100. Balance is 124
+Transfer 100 from Account 6 to Account 4
+Transfer 100 from Account 4 to Account 6
+Account 4 withdraw 100. Balance is 69
+Account 6 add 100. Balance is 160
+Transfer 100 from Account 0 to Account 7
+Account 6 withdraw 100. Balance is 60
+Transfer 100 from Account 7 to Account 5
+Transfer 100 from Account 0 to Account 9
+Transfer 100 from Account 3 to Account 8
+Account 4 add 100. Balance is 169
+Account 3 withdraw 100. Balance is 24
+Account 8 add 100. Balance is 267
+BOSS start making something good
+Account 0 add 1000. Balance is 1000
+Account 1 add 1000. Balance is 1258
+Account 2 add 1000. Balance is 1138
+Account 3 add 1000. Balance is 1024
+Account 0 withdraw 100. Balance is 900
+Account 7 add 100. Balance is 105
+Account 4 add 1000. Balance is 1169
+Account 5 add 1000. Balance is 1031
+Account 6 add 1000. Balance is 1060
+Account 7 withdraw 100. Balance is 5
+Account 5 add 100. Balance is 1131
+Account 0 withdraw 100. Balance is 800
+Account 7 add 1000. Balance is 1005
+Account 9 add 100. Balance is 168
+Account 8 add 1000. Balance is 1267
+Account 9 withdraw 100. Balance is 68
+Account 0 add 100. Balance is 900
+Account 9 add 1000. Balance is 1068
+New balances:
+Account 0 has 900
+Account 1 has 1258
+Account 2 has 1138
+Account 3 has 1024
+Account 4 has 1169
+Account 5 has 1131
+Account 6 has 1060
+Account 7 has 1005
+Account 8 has 1267
+Account 9 has 1068

@@ -2,7 +2,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class SavingsAccount {
+public class SavingsAccountExtra {
     private long balance;
     private Lock lock = new ReentrantLock();
     private Lock transferLock = new ReentrantLock();
@@ -11,7 +11,7 @@ public class SavingsAccount {
     private Condition conditionPreferred = lock.newCondition();
     private String name;
 
-    public SavingsAccount(long balance) {
+    public SavingsAccountExtra(long balance) {
         this.balance = balance;
         this.numPreferred = 0;
     }
@@ -71,11 +71,16 @@ public class SavingsAccount {
         }
     }
 
-    public void transfer(int k, SavingsAccount reserve) throws InterruptedException {
+    public void transfer(int k, SavingsAccountExtra reserve) throws InterruptedException {
         transferLock.lock();
         try {
             System.out.println("Transfer " + k + " from " + reserve.getName() + " to " + getName());
-            reserve.ordinaryWithdraw(k);
+            double state = Math.random();
+            if (state < 0.5) {
+                reserve.ordinaryWithdraw(k);
+            } else {
+                reserve.preferredWithdraw(k);
+            }
             deposit(k);
         } finally {
             transferLock.unlock();
